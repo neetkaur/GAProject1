@@ -1,0 +1,50 @@
+
+.gamebox{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.box{
+  display:inline-block;
+  background-color: grey;
+  width: 100px;
+  height:100px;
+}
+
+.loadcolors{
+background-color: black;
+color: white;
+position: absolute;
+top: 15%;
+left: 50%;
+transform: translate(-50%,-50%);
+}
+
+.loadcolors {
+    text-decoration: none;
+    border: none;
+    padding: 12px 40px;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s all;
+}
+/* Adding transformation when the button is active */
+
+.loadcolors:active {
+    transform: scale(0.98);
+    /* Scaling button to 0.98 to its original size */
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+  .blink_me {
+    animation: blinker 1s linear infinite;
+  }
+
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
