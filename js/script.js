@@ -112,8 +112,6 @@ function loadgamebox(){
     function countdown() {
         if (timeLeft == -1) {
             clearTimeout(timerId);
-            heart.classList.add("noshow")
-            elem.classList.add("noshow")
             gameover("timeover")
         } else {
             elem.innerHTML = timeLeft
@@ -150,20 +148,34 @@ function loadgamebox(){
     }
   }//setputcolorends
   selectAndPutColor()
-  function gameover(evt){
-    if(evt === "timeover"){console.log(evt)}
-    if(evt === "16done"){console.log(evt)}
-    if(evt === "5error"){console.log(evt)}
-  }
  }//gamestarts ends
-    // timed for 30 seconds.....
-    // click on a box
-    // if box color = current colr then flip box and set box color , correct++
-    // else count error;
-    // if error = 5 then lose game
-    // if time up and correct++ ! = 16 then lose game
-    // if time not up and correct === 16 then win , move to another level.
+ function gameover(evt){
+   console.log(evt)
+   let elem = document.getElementById('timetext');
+   let heart = document.getElementById('heart')
+   heart.classList.add("noshow")
+   elem.classList.add("noshow")
+   for(let i=0;i<16;i++)
+   box[i+1].classList.add("noshow")
+   colorpanel.classList.add("noshow")
 
+
+   let gameoverdiv = document.createElement('div')
+   gameoverdiv.classList.add("gameover")
+   document.body.appendChild(gameoverdiv)
+
+   if(evt === "timeover"){
+   gameoverdiv.innerHTML="TIME OVER"
+   }
+   if(evt === "16done"){
+     gameoverdiv.innerHTML="CONGRATULATIONS!!!! You won....."
+
+   }
+   if(evt === "5error"){
+     gameoverdiv.innerHTML="AWWWWWW....You need to boost your memory"
+
+   }
+ }
 
 
 }//loadgamebox ends
