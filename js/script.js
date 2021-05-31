@@ -1,16 +1,3 @@
-class player{
-  constructor(name, level){
-    this.name=name;
-    this.level=level;
-  }
-}
-
-class gamebox{
-  constructor(colornum){
-    this.colornum = colornum
-  }
-}
-
 //Overall Color Palette
 const colorarray = ['#2b2d2f', '#2678ec', '#7a49a5', '#aaffc3', '#5fe611', '#dcbeff',
 '#82d5e1', '#469990', '#808000', '#f58231', '#c8c6a7', '#962d2d', '#d99879',
@@ -44,7 +31,6 @@ let boxcolor=[]
 let box = []
 let done = 0
 let error = 0
-let counter = 0
 for(let i=0 ; i<16 ; i++){
 box[i+1] = document.getElementById(`${boxarray[i]}`)
 //box[i+1].style.backgroundColor = `${boxcolor[i]}`
@@ -60,9 +46,18 @@ let colorpanelbox = []
 const colorpanel = document.getElementsByClassName("colorpanel")[0]
 let currentcolor = []
 let colornow = ""
+let timerId=""
 
 
 function loadgamebox(){
+  const intro = document.getElementsByClassName("start")
+  intro[0].classList.add("noshow")
+  setTimeout(function () {}, 1);
+  const grid = document.getElementsByClassName("gamebox")
+  grid[0].classList.remove("noshow")
+  // const body=document.getElementsByTagName("body")
+  // body[0].style.backgroundColor = "grey"";
+
 
   //assign selected colors randomly to boxcolor "ORIGINAL STATE"
     for(let i=0; i<16; i++){
@@ -103,31 +98,32 @@ function loadgamebox(){
   //select a color from colorpanel
   function gameStarts(){
     //showTimer()
-    let timeLeft = 5;
-    let elem = document.getElementById('timetext');
+    let timeLeft = 30;
+    let timetext = document.getElementById('timetext')
     let heart = document.getElementById('heart')
-    heart.classList.remove("noshow")
-    let timerId = setInterval(countdown, 1000);
+    timerId = setInterval(countdown, 1000)
 
     function countdown() {
-        if (timeLeft == -1) {
+
+      timetext.classList.remove("noshow")
+        if (timeLeft === 0) {
             clearTimeout(timerId);
             gameover("timeover")
         } else {
-            elem.innerHTML = timeLeft
-            timeLeft--;
-            //selectAndPutColor()
-        }
+          timetext.innerHTML = timeLeft
+          if(timeLeft <= 5 && timeLeft >0 && error !== 5 && done !== 16 ){
+            heart.classList.remove("noshow")
+            }
+          timeLeft--;
+          }
     }
-    // selectColorFromPanel()
-    // clickGameGrid()
+
   function selectAndPutColor(){
     colorlist = document.querySelectorAll('.colorpanelbox')
     for(let i=0; i<colorlist.length;i++){
       colorlist[i].addEventListener("click", function(){
         currentcolor[i] = colorlist[i].style.backgroundColor
         colornow = colorlist[i].style.backgroundColor
-        counter++
        })
      }//forloop ends
     for(let i=0;i<16;i++){
@@ -151,29 +147,30 @@ function loadgamebox(){
  }//gamestarts ends
  function gameover(evt){
    console.log(evt)
-   let elem = document.getElementById('timetext');
+   clearTimeout(timerId);
+   let timetext = document.getElementById('timetext');
    let heart = document.getElementById('heart')
    heart.classList.add("noshow")
-   elem.classList.add("noshow")
+   timetext.classList.add("noshow")
    for(let i=0;i<16;i++)
    box[i+1].classList.add("noshow")
    colorpanel.classList.add("noshow")
 
 
    let gameoverdiv = document.createElement('div')
+   let gameenddiv = document.getElementsByClassName("gameend")
    gameoverdiv.classList.add("gameover")
-   document.body.appendChild(gameoverdiv)
+   gameenddiv[0].appendChild(gameoverdiv)
 
-   if(evt === "timeover"){
+   if(evt === "timeover" && done !== 16 && error !== 5){
    gameoverdiv.innerHTML="TIME OVER"
    }
    if(evt === "16done"){
-     gameoverdiv.innerHTML="CONGRATULATIONS!!!! You won....."
+     gameoverdiv.innerHTML="CONGRATULATIONS!!!! YOU WON....."
 
    }
    if(evt === "5error"){
-     gameoverdiv.innerHTML="AWWWWWW....You need to boost your memory"
-
+     gameoverdiv.innerHTML="YOU NEED A MEMORY BOOSTER"
    }
  }
 

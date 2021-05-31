@@ -5,11 +5,39 @@
     <title>Memory Game</title>
     <link rel ="stylesheet" href="./css/style.css" />
   </head>
-  <body onload="loadgamebox()">
-    <img src="https://media1.tenor.com/images/b09bb9e7eafed80bb2e4f5011acdf6b3/tenor.gif?itemid=7759956" id="heart" class="noshow">
-    <div id="timetext"></div>
-    <button onclick="loadgamebox()" class="loadcolors" type="button" name="button">LOAD COLORS</button>
-    <div class = "gamebox" id="gb">
+  <body>
+    <div class = "start">
+      <h1>INSTRUCTIONS:</h1>
+      <p>4 * 4 Grid will be displayed.<br/><br/>
+        Make note of the colors in each box of the grid. You will have 10 seconds to memorize the colors of the boxes.
+        The colors will then turn grey.<br/><br/>
+
+        Choose a color from the panel below and click on the box to paint it with that color.<br/>
+        You have 30 Seconds to complete the game.
+        You will lose if you make more than 5 errors OR if you are unable to identify the boxes correctly
+        in 30 seconds.
+        If you identify all the 16 colors correctly in the grid then you win.<br/>
+        <br/><br/>
+        Click START to Begin
+      </p>
+      <button onclick="loadgamebox()" class="loadcolors" type="button" name="button">START</button>
+    </div>
+    <audio id="sounds" loop= "false" volume = "60">
+      <source src="./sounds/clap.wav" id="A" type="audio/wav">
+      <source src="./sounds/boom.wav" id="S" type="audio/wav">
+      <source src="./sounds/hihat.wav" id="D" type="audio/wav">
+      <source src="./sounds/kick.wav" id="F" type="audio/wav">
+      <source src="./sounds/snare.wav" id="G" type="audio/wav">
+      <source src="./sounds/ride.wav" id="H" type="audio/wav">
+      <source src="./sounds/tom.wav" id="J" type="audio/wav">
+    </audio>
+
+    <div class="timer">
+      <img src="./images/heart.png" id="heart" class="noshow">
+      <div id="timetext" class ="noshow"></div>
+    </div>
+
+    <div class = "gamebox noshow" id="gb">
       <div class = "row"></div>
           <div class ="box" id = "box1"></div>
           <div class ="box" id = "box2"></div>
@@ -35,6 +63,7 @@
         <div class ="box" id = "box16"></div>
     </div>
     <div class="colorpanel"></div>
+    <div class="gameend"></div>
 
   <script src = "./js/script.js"></script>
   </body>
