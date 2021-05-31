@@ -33,6 +33,13 @@ const audio_correctbox = document.getElementById("C")
 const audio_wrongbox = document.getElementById("D")
 const audio_intro = document.getElementById("H")
 const audio_playgame = document.getElementById("I")
+const audio_hb = document.getElementById("J")
+const audio_win = document.getElementById("K")
+const audio_lose = document.getElementById("L")
+const audio_timeover = document.getElementById("M")
+audio_intro.loop = true
+
+
 
 //array for HTML box IDs
 const boxarray = ['box1','box2','box3','box4',
@@ -59,22 +66,15 @@ let currentcolor = []
 let colornow = ""
 let timerId=""
 
-function playintro(){
-  audio_intro.play()
-}
 
 function loadgamebox(){
-  audio_intro.pause()
   audio_start.play()
   const intro = document.getElementsByClassName("start")
   intro[0].classList.add("noshow")
-  sleep(200)
+  sleep(300)
+  audio_intro.play()
   const grid = document.getElementsByClassName("gamebox")
   grid[0].classList.remove("noshow")
-  // const body=document.getElementsByTagName("body")
-  // body[0].style.backgroundColor = "grey"";
-
-
   //assign selected colors randomly to boxcolor "ORIGINAL STATE"
     for(let i=0; i<16; i++){
        boxcolor[i+1] = randomcolors[Math.floor(Math.random() * randomcolors.length)];
@@ -84,24 +84,27 @@ function loadgamebox(){
     box[i+1].style.backgroundColor = `${boxcolor[i+1]}`
     }
 
-
-  window.setTimeout(makeblink, 7000)
+  window.setTimeout(makeblink, 12000)
 
   function makeblink(){
-      audio_gameblink.play()
+    audio_intro.pause()
+    sleep()
+    audio_gameblink.play()
     for(let i=0 ; i<16 ; i++){
     box[i+1].classList.toggle("blink_me")
     }
-    window.setTimeout(makeboxgrey, 3000)
+    window.setTimeout(makeboxgrey, 4000)
   }
 
   function makeboxgrey(){
     audio_gameblink.pause()
+    audio_intro.play()
     for(let i=0 ; i<16 ; i++){
     box[i+1].style.backgroundColor = "grey"
     box[i+1].classList.toggle("blink_me")
     }
     window.setTimeout(showcolorpanel(), 2000)
+    sleep(200)
   }
 //show color panel
   function showcolorpanel(){
@@ -116,7 +119,7 @@ function loadgamebox(){
   //select a color from colorpanel
   function gameStarts(){
     //showTimer()
-    let timeLeft = 30;
+    let timeLeft = 60;
     let timetext = document.getElementById('timetext')
     let heart = document.getElementById('heart')
     timerId = setInterval(countdown, 1000)
@@ -128,8 +131,10 @@ function loadgamebox(){
             gameover("timeover")
         } else {
           timetext.innerHTML = timeLeft
-          if(timeLeft <= 5 && timeLeft >0 && error !== 5 && done !== 16 ){
+          if(timeLeft <= 10 && timeLeft >0 && error !== 10 && done !== 16 ){
             heart.classList.remove("noshow")
+            audio_intro.pause()
+            audio_hb.play()
             }
           timeLeft--;
           }
@@ -139,6 +144,7 @@ function loadgamebox(){
     colorlist = document.querySelectorAll('.colorpanelbox')
     for(let i=0; i<colorlist.length;i++){
       colorlist[i].addEventListener("click", function(){
+        audio_selectcolor.play()
         currentcolor[i] = colorlist[i].style.backgroundColor
         colornow = colorlist[i].style.backgroundColor
        })
@@ -147,14 +153,16 @@ function loadgamebox(){
       box[i+1].addEventListener("click",function(){
         if(boxcolor[i+1] === RGBToHex(colornow) ){
           done++
+          audio_correctbox.play()
           box[i+1].classList.add("transiton")
           box[i+1].style.backgroundColor = colornow
           if(done===16){gameover("16done")}
                   //sound ting
         }
         else{
+          audio_wrongbox.play()
           error++
-          if(error === 5){gameover("5error")}
+          if(error === 10){gameover("5error")}
           //sound tong
         }
       })
@@ -163,7 +171,8 @@ function loadgamebox(){
   selectAndPutColor()
  }//gamestarts ends
  function gameover(evt){
-   console.log(evt)
+   audio_intro.pause()
+   audio_hb.pause()
    clearTimeout(timerId);
    let timetext = document.getElementById('timetext');
    let heart = document.getElementById('heart')
@@ -179,15 +188,18 @@ function loadgamebox(){
    gameoverdiv.classList.add("gameover")
    gameenddiv[0].appendChild(gameoverdiv)
 
-   if(evt === "timeover" && done !== 16 && error !== 5){
+   if(evt === "timeover" && done !== 16 && error !== 10){
    gameoverdiv.innerHTML="TIME OVER"
+   audio_timeover.play()
    }
    if(evt === "16done"){
      gameoverdiv.innerHTML="CONGRATULATIONS!!!! YOU WON....."
+     audio_win.play()
 
    }
    if(evt === "5error"){
      gameoverdiv.innerHTML="YOU NEED A MEMORY BOOSTER"
+     audio_lose.play()
    }
  }
 
