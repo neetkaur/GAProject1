@@ -5,7 +5,7 @@
     <title>Memory Game</title>
     <link rel ="stylesheet" href="./css/style.css" />
   </head>
-  <body>
+  <body onload="playintro()">
     <div class = "start">
       <h1>INSTRUCTIONS:</h1>
       <p>4 * 4 Grid will be displayed.<br/><br/>
@@ -22,15 +22,18 @@
       </p>
       <button onclick="loadgamebox()" class="loadcolors" type="button" name="button">START</button>
     </div>
-    <audio id="sounds" loop= "false" volume = "60">
-      <source src="./sounds/clap.wav" id="A" type="audio/wav">
-      <source src="./sounds/boom.wav" id="S" type="audio/wav">
-      <source src="./sounds/hihat.wav" id="D" type="audio/wav">
-      <source src="./sounds/kick.wav" id="F" type="audio/wav">
-      <source src="./sounds/snare.wav" id="G" type="audio/wav">
-      <source src="./sounds/ride.wav" id="H" type="audio/wav">
-      <source src="./sounds/tom.wav" id="J" type="audio/wav">
-    </audio>
+    <audio src="./sounds/click.mp3" id="A"></audio>
+    <audio src="./sounds/selectcolor.mp3" id="B"></audio>
+    <audio src="./sounds/correctbox.mp3" id="C"></audio>
+    <audio src="./sounds/wrong.mp3" id="D"></audio>
+    <audio src="./sounds/appleclick.mp3" id="E"></audio>
+    <audio src="./sounds/gameblink.mp3" id="F"></audio>
+    <audio src="./sounds/heartbeat.mp3" id="G"></audio>
+    <audio src="./sounds/intro.mp3" id="H"></audio>
+    <audio src="./sounds/play.mp3" id="I"></audio>
+
+
+
 
     <div class="timer">
       <img src="./images/heart.png" id="heart" class="noshow">
@@ -67,5 +70,4 @@
 
   <script src = "./js/script.js"></script>
   </body>
-
 </html>

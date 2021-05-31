@@ -4,24 +4,36 @@ const colorarray = ['#2b2d2f', '#2678ec', '#7a49a5', '#aaffc3', '#5fe611', '#dcb
 '#cbe8e8', '#ce97b0','#eba83a']
 
 function RGBToHex(rgb) {
-  // Choose correct separator
   let sep = rgb.indexOf(",") > -1 ? "," : " ";
-  // Turn "rgb(r,g,b)" into [r,g,b]
   rgb = rgb.substr(4).split(")")[0].split(sep);
-
   let r = (+rgb[0]).toString(16),
       g = (+rgb[1]).toString(16),
       b = (+rgb[2]).toString(16);
-
   if (r.length == 1)
     r = "0" + r;
   if (g.length == 1)
     g = "0" + g;
   if (b.length == 1)
     b = "0" + b;
-
   return "#" + r + g + b;
 }
+
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+//All audios for universal access
+const audio_start = document.getElementById("A")
+const audio_gameblink = document.getElementById("F")
+const audio_selectcolor = document.getElementById("B")
+const audio_correctbox = document.getElementById("C")
+const audio_wrongbox = document.getElementById("D")
+const audio_intro = document.getElementById("H")
+const audio_playgame = document.getElementById("I")
+
 //array for HTML box IDs
 const boxarray = ['box1','box2','box3','box4',
 'box5','box6','box7','box8',
@@ -41,18 +53,22 @@ let level = 4
 let randomcolors = colorarray.slice(0, level).map(function () {
     return this.splice(Math.floor(Math.random() * this.length), 1)[0];
 }, colorarray.slice())
-
 let colorpanelbox = []
 const colorpanel = document.getElementsByClassName("colorpanel")[0]
 let currentcolor = []
 let colornow = ""
 let timerId=""
 
+function playintro(){
+  audio_intro.play()
+}
 
 function loadgamebox(){
+  audio_intro.pause()
+  audio_start.play()
   const intro = document.getElementsByClassName("start")
   intro[0].classList.add("noshow")
-  setTimeout(function () {}, 1);
+  sleep(200)
   const grid = document.getElementsByClassName("gamebox")
   grid[0].classList.remove("noshow")
   // const body=document.getElementsByTagName("body")
@@ -69,16 +85,18 @@ function loadgamebox(){
     }
 
 
-  window.setTimeout(makeblink, 2000)
+  window.setTimeout(makeblink, 7000)
 
   function makeblink(){
+      audio_gameblink.play()
     for(let i=0 ; i<16 ; i++){
     box[i+1].classList.toggle("blink_me")
     }
-    window.setTimeout(makeboxgrey, 2000)
+    window.setTimeout(makeboxgrey, 3000)
   }
 
   function makeboxgrey(){
+    audio_gameblink.pause()
     for(let i=0 ; i<16 ; i++){
     box[i+1].style.backgroundColor = "grey"
     box[i+1].classList.toggle("blink_me")
@@ -104,7 +122,6 @@ function loadgamebox(){
     timerId = setInterval(countdown, 1000)
 
     function countdown() {
-
       timetext.classList.remove("noshow")
         if (timeLeft === 0) {
             clearTimeout(timerId);
