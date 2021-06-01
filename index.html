@@ -6,6 +6,9 @@
     <link rel ="stylesheet" href="./css/style.css" />
   </head>
   <body>
+    <div class="scroll-right noshow">
+      <p>MEMORIZE THE POSITION OF COLORS......</p>
+     </div>
     <div class = "start">
       <h1>INSTRUCTIONS:</h1>
       <p>4 * 4 Grid will be displayed.<br/><br/>
@@ -13,9 +16,9 @@
         The colors will then turn grey.<br/><br/>
 
         Choose a color from the panel below and click on the box to paint it with that color.<br/>
-        You have 30 Seconds to complete the game.
-        You will lose if you make more than 5 errors OR if you are unable to identify the boxes correctly
-        in 30 seconds.
+        You have 60 Seconds to complete the game.
+        You will lose if you make more than 10 errors OR if you are unable to identify the boxes correctly
+        in 60 seconds.
         If you identify all the 16 colors correctly in the grid then you win.<br/>
         <br/><br/>
         Click START to Begin
@@ -24,8 +27,8 @@
     </div>
     <audio src="./sounds/click.mp3" id="A"></audio>
     <audio src="./sounds/selectcolor.mp3" id="B"></audio>
-    <audio src="./sounds/correctbox.mp3" id="C"></audio>
-    <audio src="./sounds/wrong.mp3" id="D"></audio>
+    <audio src="./sounds/correctbox.mov" id="C"></audio>
+    <audio src="./sounds/wrong.mov" id="D"></audio>
     <audio src="./sounds/appleclick.mp3" id="E"></audio>
     <audio src="./sounds/gameblink.mp3" id="F"></audio>
     <audio src="./sounds/heartbeat.mp3" id="G"></audio>
@@ -35,9 +38,7 @@
     <audio src="./sounds/winning.mp3" id="K"></audio>
     <audio src="./sounds/crying.mp3" id="L"></audio>
     <audio src="./sounds/timeover.mp3" id="M"></audio>
-
-
-
+    <audio src="./sounds/clockticking.mp3" id="N"></audio>
 
 
 
@@ -73,6 +74,7 @@
     </div>
     <div class="colorpanel"></div>
     <div class="gameend"></div>
+    <button class ="playagain noshow" >PLAY AGAIN</button>
 
   <script src = "./js/script.js"></script>
   </body>

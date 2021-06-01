@@ -25,6 +25,14 @@ function sleep(milliseconds) {
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
 }
+
+ const playagain = document.getElementsByClassName('playagain')
+ let over = document.getElementsByClassName("gameover")
+// function wip(){
+//   over.innerHTML="This is WIP :) ........  Refresh the browser"
+// }
+
+
 //All audios for universal access
 const audio_start = document.getElementById("A")
 const audio_gameblink = document.getElementById("F")
@@ -37,9 +45,10 @@ const audio_hb = document.getElementById("J")
 const audio_win = document.getElementById("K")
 const audio_lose = document.getElementById("L")
 const audio_timeover = document.getElementById("M")
+const audio_clockticking = document.getElementById("N")
 audio_intro.loop = true
-
-
+audio_clockticking.loop = true
+audio_clockticking.volume = .5
 
 //array for HTML box IDs
 const boxarray = ['box1','box2','box3','box4',
@@ -62,6 +71,7 @@ let randomcolors = colorarray.slice(0, level).map(function () {
 }, colorarray.slice())
 let colorpanelbox = []
 const colorpanel = document.getElementsByClassName("colorpanel")[0]
+const reminder = document.getElementsByClassName("scroll-right")
 let currentcolor = []
 let colornow = ""
 let timerId=""
@@ -73,8 +83,12 @@ function loadgamebox(){
   intro[0].classList.add("noshow")
   sleep(300)
   audio_intro.play()
+
   const grid = document.getElementsByClassName("gamebox")
   grid[0].classList.remove("noshow")
+  reminder[0].classList.remove("noshow")
+
+
   //assign selected colors randomly to boxcolor "ORIGINAL STATE"
     for(let i=0; i<16; i++){
        boxcolor[i+1] = randomcolors[Math.floor(Math.random() * randomcolors.length)];
@@ -97,6 +111,7 @@ function loadgamebox(){
   }
 
   function makeboxgrey(){
+    reminder[0].classList.add("noshow")
     audio_gameblink.pause()
     audio_intro.play()
     for(let i=0 ; i<16 ; i++){
@@ -118,7 +133,7 @@ function loadgamebox(){
   }
   //select a color from colorpanel
   function gameStarts(){
-    //showTimer()
+    audio_clockticking.play()
     let timeLeft = 60;
     let timetext = document.getElementById('timetext')
     let heart = document.getElementById('heart')
@@ -132,7 +147,7 @@ function loadgamebox(){
         } else {
           timetext.innerHTML = timeLeft
           if(timeLeft <= 10 && timeLeft >0 && error !== 10 && done !== 16 ){
-            heart.classList.remove("noshow")
+            heart.classList.toggle("noshow")
             audio_intro.pause()
             audio_hb.play()
             }
@@ -153,6 +168,7 @@ function loadgamebox(){
       box[i+1].addEventListener("click",function(){
         if(boxcolor[i+1] === RGBToHex(colornow) ){
           done++
+          console.log(done)
           audio_correctbox.play()
           box[i+1].classList.add("transiton")
           box[i+1].style.backgroundColor = colornow
@@ -173,6 +189,7 @@ function loadgamebox(){
  function gameover(evt){
    audio_intro.pause()
    audio_hb.pause()
+   audio_clockticking.pause()
    clearTimeout(timerId);
    let timetext = document.getElementById('timetext');
    let heart = document.getElementById('heart')
@@ -182,25 +199,37 @@ function loadgamebox(){
    box[i+1].classList.add("noshow")
    colorpanel.classList.add("noshow")
 
-
-   let gameoverdiv = document.createElement('div')
    let gameenddiv = document.getElementsByClassName("gameend")
+   let gameoverdiv = document.createElement('div')
    gameoverdiv.classList.add("gameover")
    gameenddiv[0].appendChild(gameoverdiv)
 
    if(evt === "timeover" && done !== 16 && error !== 10){
    gameoverdiv.innerHTML="TIME OVER"
    audio_timeover.play()
+   playagain[0].classList.remove("noshow")
+   playagain[0].addEventListener('onclick',function(){
+     gameoverdiv.innerHTML="This is WIP :) ........  Refresh the browser"
+   })
    }
    if(evt === "16done"){
      gameoverdiv.innerHTML="CONGRATULATIONS!!!! YOU WON....."
      audio_win.play()
+     playagain[0].classList.remove("noshow")
+     playagain[0].addEventListener('onclick',function(){
+       gameoverdiv.innerHTML="This is WIP :) ........  Refresh the browser"
+     })
 
    }
    if(evt === "5error"){
      gameoverdiv.innerHTML="YOU NEED A MEMORY BOOSTER"
      audio_lose.play()
+     playagain[0].classList.remove("noshow")
+     playagain[0].addEventListener('onclick',function(){
+       gameoverdiv.innerHTML="This is WIP :) ........  Refresh the browser"
+     })
    }
+
  }
 
 
